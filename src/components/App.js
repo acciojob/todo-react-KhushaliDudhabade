@@ -1,11 +1,49 @@
 
-import React from "react";
+import React, { useState } from "react";
+
 import './../styles/App.css';
 
 const App = () => {
+
+    const[input,setInput]=useState("");
+    const[task,setTask]=useState([]);
+
+    const handleInput=(e)=>{
+           setInput(e.target.value)
+    }
+
+    const addTask=(e)=>{
+        e.preventDefault();
+        if(input.trim()!==""){
+            setTask([...task,input])
+            
+        } 
+        
+    }
+
+    const deleteTask=(index)=>{
+        const newTasks = task.slice();
+       newTasks.splice(index, 1);
+       setTask(newTasks);
+    }
+  
   return (
-    <div>
-        {/* Do not remove the main div */}
+    <div className="App">
+        
+        <form onSubmit={addTask}>
+        <h1>Add To-Do List</h1>
+        <input type="text" onChange={handleInput}/> &nbsp;
+        <button type="submit">Add</button>
+        </form>
+        <div>
+            <ol>
+                {
+                task.map((item,index) =>{
+                    return <li> {item}  <button onClick={() => deleteTask(index)}>Delete</button></li>
+                })
+                }
+            </ol>
+        </div>
     </div>
   )
 }
